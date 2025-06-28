@@ -30,7 +30,7 @@ func (ds *DaySteps) Parse(datastring string) (err error) {
 	ds.Duration = 0
 
 	if len(parts) != 2 {
-		err := fmt.Errorf("incorrect number of parameters.\n expected 3 values.\n actual %d values", len(parts))
+		err := fmt.Errorf("incorrect count of parameters.\n expected 3 values.\n actual %d values", len(parts))
 
 		return err
 	}
@@ -59,6 +59,9 @@ func (ds *DaySteps) Parse(datastring string) (err error) {
 
 		return err
 	}
+
+	ds.Steps = stepsCount
+	ds.Duration = Duration
 
 	return nil
 
