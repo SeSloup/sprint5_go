@@ -1,6 +1,7 @@
 package spentenergy
 
 import (
+	"errors"
 	"time"
 )
 
@@ -12,18 +13,41 @@ const (
 	walkingCaloriesCoefficient = 0.5  // коэффициент для расчета калорий при ходьбе.
 )
 
-func WalkingSpentCalories(steps int, weight, height float64, duration time.Duration) (float64, error) {
-	// TODO: реализовать функцию
-}
+func Distance(steps int, height float64) float64 {
 
-func RunningSpentCalories(steps int, weight, height float64, duration time.Duration) (float64, error) {
-	// TODO: реализовать функцию
+	dist := height * stepLengthCoefficient * float64(steps) / float64(mInKm)
+	return dist
 }
 
 func MeanSpeed(steps int, height float64, duration time.Duration) float64 {
-	// TODO: реализовать функцию
+
+	if duration <= 0 {
+		return 0
+	}
+
+	dist := Distance(steps, height)
+	hours := duration.Hours()
+
+	return (dist / hours)
 }
 
-func Distance(steps int, height float64) float64 {
-	// TODO: реализовать функцию
+func WalkingSpentCalories(steps int, weight, height float64, duration time.Duration) (float64, error) {
+
+	ccal, err := RunningSpentCalories(steps, weight, height, duration)
+
+	return (ccal * walkingCaloriesCoefficient), err
+}
+
+func RunningSpentCalories(steps int, weight, height float64, duration time.Duration) (float64, error) {
+
+	var err error
+
+	if steps <= 0 || weight <= 0 || height <= 0 || duration <= 0 {
+		return 0, errors.New("incorrect number of parameters")
+	}
+
+	ms := MeanSpeed(steps, height, duration)
+	mins := duration.Minutes()
+	return (weight * ms * mins / minInH), err
+
 }
