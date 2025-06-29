@@ -41,7 +41,7 @@ func (t *Training) Parse(datastring string) (err error) {
 
 	if err != nil {
 
-		return fmt.Errorf("error converting steps: %v", err)
+		return fmt.Errorf("error converting steps: %w", err)
 	}
 
 	Duration, err := time.ParseDuration(parts[2])
@@ -52,7 +52,7 @@ func (t *Training) Parse(datastring string) (err error) {
 	}
 	if err != nil {
 
-		return fmt.Errorf("error parsing time value: %v.", err)
+		return fmt.Errorf("error parsing time value: %w.", err)
 	}
 
 	t.Steps = Steps
@@ -64,15 +64,10 @@ func (t *Training) Parse(datastring string) (err error) {
 }
 
 func (t Training) ActionInfo() (string, error) {
-	// TODO: реализовать функцию
 
 	steps := t.Steps
 	activity := t.TrainingType
 	Duration := t.Duration
-
-	/*if t.Personal == nil {
-		return "", errors.New("error: no personal information")
-	}*/
 
 	height := t.Personal.Height
 	weight := t.Personal.Weight

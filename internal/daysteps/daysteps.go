@@ -30,34 +30,29 @@ func (ds *DaySteps) Parse(datastring string) (err error) {
 	ds.Duration = 0
 
 	if len(parts) != 2 {
-		err := fmt.Errorf("incorrect count of parameters.\n expected 3 values.\n actual %d values", len(parts))
+		return fmt.Errorf("incorrect count of parameters.\n expected 2 values.\n actual %d values", len(parts))
 
-		return err
 	}
 	stepsCount, err := strconv.Atoi(parts[0])
 
 	if err != nil {
-		err = fmt.Errorf("error converting steps: %v", err)
+		return fmt.Errorf("error converting steps: %w", err)
 
-		return err
 	}
 
 	if stepsCount <= 0 {
-		err = fmt.Errorf("error: wrong value for steps. stepsCount = %d", stepsCount)
+		return fmt.Errorf("error: wrong value for steps. stepsCount = %d", stepsCount)
 
-		return err
 	}
 
 	Duration, err := time.ParseDuration(parts[1])
 	if err != nil {
-		err = fmt.Errorf("error parsing time value: %v.", err)
+		return fmt.Errorf("error parsing time value: %w.", err)
 
-		return err
 	}
 	if Duration <= 0 {
-		err = fmt.Errorf("error: wrong value for time. Duration = %.2f", Duration)
+		return fmt.Errorf("error: wrong value for time. Duration = %.2f", Duration)
 
-		return err
 	}
 
 	ds.Steps = stepsCount
@@ -68,7 +63,7 @@ func (ds *DaySteps) Parse(datastring string) (err error) {
 }
 
 func (ds DaySteps) ActionInfo() (string, error) {
-	// TODO: реализовать функцию
+
 	steps := ds.Steps
 	Duration := ds.Duration
 

@@ -42,11 +42,12 @@ func RunningSpentCalories(steps int, weight, height float64, duration time.Durat
 
 	var err error
 
-	if steps > 0 && weight > 0 && height > 0 && duration > 0 {
-		ms := MeanSpeed(steps, height, duration)
-		mins := duration.Minutes()
-		return (weight * ms * mins / minInH), err
+	if steps <= 0 || weight <= 0 || height <= 0 || duration <= 0 {
+		return 0, errors.New("incorrect number of parameters")
 	}
 
-	return 0, errors.New("incorrect number of parameters")
+	ms := MeanSpeed(steps, height, duration)
+	mins := duration.Minutes()
+	return (weight * ms * mins / minInH), err
+
 }

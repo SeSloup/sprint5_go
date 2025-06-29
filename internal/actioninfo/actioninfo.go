@@ -8,13 +8,19 @@ type DataParser interface {
 }
 
 func Info(dataset []string, dp DataParser) {
-	// TODO: реализовать функцию
+
 	for _, tt := range dataset {
-		dp.Parse(tt)
+		err := dp.Parse(tt)
+
+		if err != nil {
+			fmt.Println("error parse:", err)
+			continue
+		}
+
 		v, err := dp.ActionInfo()
 
 		if err != nil {
-			fmt.Println(err)
+			fmt.Println("error info:", err)
 			continue
 		}
 		fmt.Println(v)
